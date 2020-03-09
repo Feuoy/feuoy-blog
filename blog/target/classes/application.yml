@@ -1,0 +1,14 @@
+spring:
+  # thymeleaf模式
+  thymeleaf:
+    mode: HTML
+  # 国际化配置
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+  # 多文件配置
+  profiles:
+    active: dev
+
+# 评论头像地址
+comment.avatar: /images/avatar.png

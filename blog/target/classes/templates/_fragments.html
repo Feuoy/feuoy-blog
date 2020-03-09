@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<!--公用head-->
+<!--th:fragment="head(title)，title做可替代参数-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <!--移动端预览-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--th:replace="${title}"，title即上面的可替代的参数值-->
+    <title th:replace="${title}">博客详情</title>
+    <!--cdn方式，semantic的css依赖-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <!--本地资源方式，th:href="@{/css/typo.css}"的根路径是static-->
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+
+<body>
+
+<!--header导航栏-->
+<!--th:fragment="menu(n)"，n做选项卡索引参数-->
+<nav th:fragment="menu(n)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <!--选项卡-->
+    <div class="ui container">
+        <!--stackable做移动端适配-->
+        <div class="ui inverted secondary stackable menu">
+            <!--Blog-->
+            <h2 class="ui teal header item">Blog</h2>
+            <!--首页等-->
+            <!--th:href="@{/}"，选项卡索引路径，根路径/是/templates-->
+            <!--th:classappend="${n==1} ? 'active'"，取选项卡索引n如果为1，添加active的class样式-->
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'">
+                <i class="mini home icon"></i>首页
+            </a>
+            <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'">
+                <i class="mini idea icon"></i>分类
+            </a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'">
+                <i class="mini tags icon"></i>标签
+            </a>
+            <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'">
+                <i class="mini clone icon"></i>归档
+            </a>
+            <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5} ? 'active'">
+                <i class="mini info icon"></i>关于我
+            </a>
+            <!--搜索，移动端浏览隐藏-->
+            <div class="right m-item item m-mobile-hide">
+                <!--th:action="@{/search}"，提交地址-->
+                <!--name="query"，提交的参数标识符-->
+                <!--th:value="${query}"，提交的参数值-->
+                <form name="search" action="#" th:action="@{/search}" method="post" target="_blank">
+                    <div class="ui icon inverted transparent input m-margin-tb-tiny">
+                        <input type="text" name="query" placeholder="Search...." th:value="${query}">
+                        <!--提交按钮-->
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!--移动端导航栏收纳按钮，移动端浏览显示-->
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<!--底部footer-->
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <!--grid-->
+        <div class="ui inverted divided stackable grid">
+            <!--二维码-->
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <!--th:src="@{/images/wechat.jpg}"，/static下-->
+                        <img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" class="ui rounded image"
+                             alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <!--最新博客-->
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
+                <div id="newblog-container">
+                    <!--th:fragment="newblogList"，最新博客fragment-->
+                    <div class="ui inverted link list" th:fragment="newblogList">
+                        <!--th:each="blog : ${newblogs}"，遍历newblogs每个blog，用了之后，同一句是可以取遍历的每个对象的-->
+                        <!--th:href="@{/blog/{id}(id=${blog.id})}"，链接博客详情-->
+                        <!--th:text="${blog.title}"，显示内容-->
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item m-text-thin"
+                           th:each="blog : ${newblogs}" th:text="${blog.title}">用户故事（User Story）</a>
+                        <!--注释掉，thymeleaf的语法，静态资源可见，动态运行下不可见-->
+                        <!--/*-->
+                        <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+                        <a href="#" class="item m-text-thin">用户故事（User Story）</a>
+                        <!--*/-->
+                    </div>
+                </div>
+            </div>
+            <!--联系我-->
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <!--国际化资源的引用-->
+                    <a href="#" class="item m-text-thin" th:text="#{index.email}">Email：feuoy@outlook.com</a>
+                    <a href="#" class="item m-text-thin" th:text="#{index.qq}">QQ：994551034</a>
+                </div>
+            </div>
+            <!--Blog-->
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini" th:text="#{index.blogDescription}">
+                    这是我的个人博客，分享关于编程、写作、思考相关的一些内容，希望可以给来到这儿的人有所帮助</p>
+            </div>
+        </div>
+        <!--分割线和copyright-->
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - <span
+                th:text="${#dates.year(#dates.createNow())}">2020</span> feuoy Designed by Feuoy</p>
+    </div>
+</footer>
+
+<!--th:block，块级元素，包括下面的内容作为一个块，引用后去掉本行-->
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js"
+            th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <!--加载最新博客-->
+    <script>
+        $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+    </script>
+</th:block>
+
+</body>
+</html>
