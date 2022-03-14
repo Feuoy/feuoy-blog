@@ -74,7 +74,7 @@ public class MarkdownUtils {
 
     // test
     public static void main(String[] args) {
-        String a = "[imCoding 爱编程](http://www.Feuoy.cn)";
+        String a = "feuoy";
         String table = "| hello | hi   | 哈哈哈   |\n" +
                 "| ----- | ---- | ----- |\n" +
                 "| 斯维尔多  | 士大夫  | f啊    |\n" +

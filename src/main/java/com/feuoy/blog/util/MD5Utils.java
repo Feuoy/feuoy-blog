@@ -39,7 +39,7 @@ public class MD5Utils {
 
     // 测试
     public static void main(String[] args) {
-        System.out.println(code("123"));
+        System.out.println(code("feuoy"));
     }
 
 }

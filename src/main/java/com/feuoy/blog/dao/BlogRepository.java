@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /*
-博客Repository，管理blog，继承JpaRepository<操作对象,主键类型>
+博客Repository，管理blog，
+继承JpaRepository<操作对象,主键类型>，
+继承JpaSpecificationExecutor，支持复杂动态查询
 */
 public interface BlogRepository extends JpaRepository<Blog, Long>, JpaSpecificationExecutor<Blog> {
 

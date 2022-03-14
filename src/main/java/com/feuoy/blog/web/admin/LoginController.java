@@ -37,6 +37,8 @@ public class LoginController {
 
         // 验证用户
         User user = userService.checkUser(username, password);
+//        System.out.println(username);
+//        System.out.println(password);
 
         //如果不为null
         if (user != null) {
